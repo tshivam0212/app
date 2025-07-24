@@ -14,4 +14,5 @@ bs4
 fpdf2
 pandas
 plotly
+openpyxl
 
