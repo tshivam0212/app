@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: vuln-chatbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run streamlit_app.py --server.port 10000 --server.enableCORS false
+    envVars:
+      - key: GROQ_API_KEY
+        value: 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
