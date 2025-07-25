@@ -43,15 +43,17 @@ def load_vulnerability_data(filepath: str):
             f"TruRisk Score: {row['TruRisk Score']}"
         )
         docs.append(Document(page_content=text))
+    print(docs)
     return docs
 
 
 def create_retriever(docs):
     embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
-    splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-    texts = splitter.split_documents(docs)
-    db = FAISS.from_documents(texts, embeddings)
-    return db.as_retriever(search_kwargs={"k": 5})
+    #splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    #texts = splitter.split_documents(docs)
+    db = FAISS.from_documents(docs, embeddings)
+    #db = FAISS.from_documents(texts, embeddings)
+    return db.as_retriever(search_kwargs={"k": 30})
 
 def create_chatbot(filepath: str):
     docs = load_vulnerability_data(filepath)
