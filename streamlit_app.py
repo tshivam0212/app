@@ -8,7 +8,9 @@ import plotly.express as px
 st.set_page_config(page_title="Vulnerability Chatbot", layout="wide")
 st.title("🛡 Vulnerability Chatbot & Report Generator")
 
-DATA_FILE = "qualys.xlsx"
+#DATA_FILE = "qualys.xlsx"
+from pathlib import Path
+DATA_FILE = Path("qualys.xlsx")
 if not os.path.exists(DATA_FILE):
     st.error(f"Data file {DATA_FILE} not found!")
     st.stop()
