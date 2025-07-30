@@ -17,3 +17,4 @@ openpyxl
 streamlit
 plotly
 huggingface-hub
+sentence-transformers
