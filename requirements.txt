@@ -16,3 +16,4 @@ pandas
 openpyxl
 streamlit
 plotly
+huggingface-hub
