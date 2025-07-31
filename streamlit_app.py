@@ -52,31 +52,30 @@ try:
     st.subheader("Generate PDF Report")
     report_query = st.text_input("Enter filter keyword for report (e.g., '.NET'):")
 
-   if st.button("Generate Report"):
-    try:
-        filtered_df = df
-        if report_query:
-            filtered_df = df[df.apply(lambda x: x.astype(str).str.contains(report_query, case=False).any(), axis=1)]
+    if st.button("Generate Report"):
+        try:
+            filtered_df = df
+            if report_query:
+                filtered_df = df[df.apply(lambda x: x.astype(str).str.contains(report_query, case=False).any(), axis=1)]
 
-        logging.info(f"Generating summary for report: {report_query}")
-        summary = chatbot.invoke({"question": f"Summarize vulnerabilities for {report_query}"})
+            logging.info(f"Generating summary for report: {report_query}")
+            summary = chatbot.invoke({"question": f"Summarize vulnerabilities for {report_query}"})
 
-        logging.info("Generating PDF...")
-        pdf_buffer = generate_pdf(filtered_df, summary["answer"])
+            logging.info("Generating PDF...")
+            pdf_buffer = generate_pdf(filtered_df, summary["answer"])
 
-        st.download_button(
-            label="Download Report",
-            data=pdf_buffer,
-            file_name="Vulnerability_Report.pdf",
-            mime="application/pdf"
-        )
+            st.download_button(
+                label="Download Report",
+                data=pdf_buffer,
+                file_name="Vulnerability_Report.pdf",
+                mime="application/pdf"
+            )
 
-    except Exception:
-        err = traceback.format_exc()
-        logging.error(err)
-        st.error("❌ Error generating report.")
-        st.text(err)
-
+        except Exception:
+            err = traceback.format_exc()
+            logging.error(err)
+            st.error("❌ Error generating report.")
+            st.text(err)
 
     st.subheader("📊 Vulnerability Trends")
 
