@@ -2,19 +2,20 @@ from fpdf import FPDF
 import pandas as pd
 from io import BytesIO
 
-def generate_pdf(df: pd.DataFrame, summary: str):
+def generate_pdf(df: pd.DataFrame, summary: str) -> BytesIO:
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
+    
     pdf.cell(0, 10, "Vulnerability Report", ln=True)
     pdf.multi_cell(0, 10, summary)
     pdf.ln(10)
-    for _, row in df.iterrows():
-        pdf.multi_cell(
-            0, 5, f"{row['QID']} - {row['Title']} - {row['Severity']} - {row['Solution']}"
-        )
 
-    pdf_buffer = BytesIO()
-    pdf.output(pdf_buffer)
-    pdf_buffer.seek(0)
-    return pdf_buffer
+    for _, row in df.iterrows():
+        row_text = ', '.join(f"{col}: {val}" for col, val in row.items())
+        pdf.multi_cell(0, 10, row_text)
+        pdf.ln(2)
+
+    pdf_output = pdf.output(dest='S').encode('latin-1')  # Get PDF as string and encode it
+    buffer = BytesIO(pdf_output)
+    return buffer
